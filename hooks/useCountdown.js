@@ -8,7 +8,6 @@ function pad(n, width, z) {
 
 function useCountdown(finalUTC,endMessage) {
     const [value, setValue] = useState(null);
-
     useEffect(()=>{
         if(!finalUTC) return;
         let delta = Number(finalUTC.toString()) - Math.floor(Date.now() / 1000);
