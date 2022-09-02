@@ -3,7 +3,7 @@ import Head from 'next/head';
 import React from 'react';
 import Router, { withRouter } from 'next/router';
 import { DAppProvider, BSC} from '@usedapp/core'
-import OpenGraphImg from '../public/static/assets/opengraph.png';
+import OpenGraphImg from '../public/static/assets/opengraph.jpg';
 import Favicon from '../public/static/assets/logo.png';
 import '../public/static/assets/fonts/stylesheet.css';
 import '../styles/styles.scss';
