@@ -1,0 +1,117 @@
+@import "./theme";
+
+html{
+  background-color: $background;
+}
+body{
+  background-color: $background;
+  color:black;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  position: relative;
+}
+
+.full-width {
+  width: 100%;
+}
+.full-height {
+  height: 100vh;
+}
+.full-height-min {
+  min-height: 100vh;
+}
+.text-center {
+  text-align: center;
+}
+
+.flex-vertical-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.is-secondary, .hero.is-dark a.is-secondary {
+  color:$secondary !important;
+}
+a.is-secondary{
+  background-color:rgba(4, 51, 43, 0);
+  &:hover{
+    background-color:rgba(8, 71, 61, 0.02);
+
+  }
+}
+
+.auto-centered{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.footer {
+  background-color: $background;
+  .content a{
+  color:$secondary;
+}
+
+}
+
+.image img{
+  max-width:750px;
+}
+
+.image-ontop{
+  height:0px;
+  overflow: visible;
+}
+
+.is-cursive{
+  font-family:$family-cursive;
+  font-weight:lighter;
+}
+
+.has-background-gradient{
+  background: rgb(238,238,233);
+  background: linear-gradient(190deg, rgb(238, 237, 233) 0%, rgb(222, 228, 228) 100%); ;
+}
+.has-background-gradient.is-dark{
+  background: rgb(40,36,30);
+background: linear-gradient(190deg, rgb(19, 61, 52) 0%, rgb(11, 55, 74) 100%);
+}
+
+button.is-rounded, a.button.is-rounded{
+  padding-top:0.55em;
+}
+
+button.button.is-dark, a.button.is-dark{
+  border-width:2px;
+  border-color:darken($secondary,40%);
+  background-color: darken($primary,65%);
+  &:hover{
+    border-color:darken($secondary,40%);
+    background-color: darken($primary,50%);
+  }
+}
+
+.has-background-transparent{
+  background-color:transparent;
+}
+
+.background-video{
+  object-fit: cover;
+  height:100vh;
+  width:100vw;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index:0;
+}
+video::-webkit-media-controls-fullscreen-button
+{
+        display: none !important;
+}
+
+#dexscreener-embed{position:relative;width:100%;padding-bottom:125%;}
+@media(min-width:1400px){#dexscreener-embed{padding-bottom:65%;}}
+#dexscreener-embed iframe{position:absolute;width:100%;height:100vh;top:0;left:0;border:0;}
