@@ -61,9 +61,9 @@ function Home() {
       </div>
       
       <div className='has-text-white mt-0'>
-        <div className='has-background-white auto-centered mb-2 mt-2' style={{height:"2px",width:"360px", maxWidth:"75%"}}></div>
-        <h2 className='is-size-4'>Your Wallet</h2>
-        <div className='columns is-mobile'>
+      <h2 className='is-size-4 mt-5'>Your Wallet</h2>
+        <div className='has-background-white auto-centered mb-2' style={{height:"2px",width:"360px", maxWidth:"75%"}}></div>
+        <div className='columns is-mobile mb-0'>
           <div className='column has-text-right'>
             Wallet: <br/>
             Network: <br/>
@@ -81,7 +81,6 @@ function Home() {
             NO 
           </div>
         </div>
-        <div className='has-background-white auto-centered mb-2 mt-2' style={{height:"2px",width:"360px", maxWidth:"75%"}}></div>
     </div>
   </div>
     

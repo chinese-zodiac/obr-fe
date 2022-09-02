@@ -84,11 +84,11 @@ button.is-rounded, a.button.is-rounded{
 
 button.button.is-dark, a.button.is-dark{
   border-width:2px;
-  border-color:darken($secondary,40%);
-  background-color: darken($primary,65%);
+  border-color:$primary;
+  background-color: darken($secondary,56%);
   &:hover{
-    border-color:darken($secondary,40%);
-    background-color: darken($primary,50%);
+    border-color:$primary;
+    background-color: darken($secondary,58%);
   }
 }
 
