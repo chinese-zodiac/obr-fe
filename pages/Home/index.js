@@ -84,7 +84,7 @@ function Home() {
   const publicCountdown = useCountdown(publicStartEpoch,"OPEN");
 
   return (<>
-  <div id="top" className="has-background-gradient is-dark has-text-centered" style={{width:"100%",minHeight:"100vh"}}>
+  <div id="top" className="has-background-gradient is-dark has-text-centered" style={{width:"100%",minHeight:"125vh"}}>
       <div className='pb-3 pt-3'>
         <img src={Logo} className="" style={{maxWidth:"15em"}} />
         <p className='is-size-1 has-text-white m-0'>{totalRecruited?.toString() ?? 0} / {globalRecruitmentCap?.toString() ?? 0}</p>
