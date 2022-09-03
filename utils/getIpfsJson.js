@@ -17,6 +17,7 @@ export const getIpfsUrl = (sourceUrl,cycle=0) => {
 
 let cycle = 0;
 export const getIpfsJson = memoize(async (sourceUrl) => {
+    console.log(sourceUrl)
     let s = window.localStorage;
     let item = JSON.parse(s.getItem(sourceUrl));
     if(item != null) return item;
@@ -25,7 +26,13 @@ export const getIpfsJson = memoize(async (sourceUrl) => {
     let result = await fetchRetry(
         getIpfsUrl(sourceUrl, cycle)
     );
-    item = await result.json();
+    try{
+        item = await result.json();
+    } catch(err) {
+        console.log("getIpfsJson error:",err);
+        item = {}
+    }
+    
     s.setItem(sourceUrl,JSON.stringify(item));
     return item;
 })

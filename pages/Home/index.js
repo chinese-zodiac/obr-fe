@@ -1,5 +1,6 @@
 
 import React, { Component, useState, useEffect } from 'react';
+import { Contract as ContractEthCall, Provider as ProviderEthCall} from "ethcall";
 import Web3ModalButton from '../../components/Web3ModalButton';
 import Footer from '../../components/Footer';
 import "./index.module.scss";
@@ -14,6 +15,7 @@ import { shortenAddress, useLookupAddress} from '@usedapp/core'
 import IERC20Abi from "../../abi/IERC20.json";
 import OneBadRabbitAbi from "../../abi/OneBadRabbit.json";
 import OneBadRabbitRecruiterAbi from "../../abi/OneBadRabbitRecruiter.json";
+import ObrCard from "../../components/ObrCard";
 import { SOCIAL_TWITTER, SOCIAL_TELEGRAM, SOCIAL_GITHUB} from '../../constants/social';
 import {deltaCountdown} from '../../utils/timeDisplay';
 import {weiToShortString, tokenAmtToShortString, weiToFixed, weiToUsdWeiVal, toShortString} from '../../utils/bnDisplay';
@@ -37,6 +39,8 @@ const displayWad = (wad)=>!!wad ? Number(formatEther(wad)).toFixed(2) : "...";
 function Home() {
   
   const { account, library, chainId } = useEthers();
+
+  const [accountNftIdArray, setAccountNftIdArray] = useState([]);
   
   const { state: stateLrtApprove, send: sendLrtApprove } = useContractFunction(CONTRACT_LRT, 'approve');
   const { state: stateRecruitBadRabbit, send: sendRecruitBadRabbit } = useContractFunction(CONTRACT_OBR_RECRUITER, 'recruitBadRabbit');
@@ -82,6 +86,28 @@ function Home() {
 
   const whitelistCountdown = useCountdown(whitelistStartEpoch,"OPEN");
   const publicCountdown = useCountdown(publicStartEpoch,"OPEN");
+
+  useEffect(()=>{
+    console.log(account,obrCount?.toString())
+    if(!account) return;
+    if(!obrCount) return;
+    if(obrCount.eq(0)) return;
+    (async ()=>{
+      const multicallProvider = new ProviderEthCall();
+      await multicallProvider.init(library);
+      const obrScMulticallable = new ContractEthCall(ADDRESS_OBR,OneBadRabbitAbi);
+      try{
+        console.log((new Array(obrCount.toNumber()).fill(0)))
+        const multicallResults = await multicallProvider.all(
+          (new Array(obrCount.toNumber()).fill(0)).map((item,index)=>obrScMulticallable.tokenOfOwnerByIndex(account,index))
+        )
+        console.log(multicallResults)
+        setAccountNftIdArray(multicallResults.map(item=>item?.toNumber()));
+      } catch(err) {
+        console.log("Failed to multicall one bad rabbit ids for",account);
+      }
+    })();
+  },[account,obrCount]);
 
   return (<>
   <div id="top" className="has-background-gradient is-dark has-text-centered" style={{width:"100%",minHeight:"125vh"}}>
@@ -150,6 +176,11 @@ function Home() {
           */} 
           </div>
         </div>
+    </div>
+    <div>
+      {accountNftIdArray.map((nftId)=>{
+        return <ObrCard key={`obr-${nftId}`} nftId={nftId} />
+      })}
     </div>
       <video preload="none" autoPlay loop muted className='mt-5 mb-0' style={{position:"relative",top:"1em",width:"100%"}}>
         <source src={ObrCallVid} type="video/mp4" />
