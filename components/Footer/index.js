@@ -19,7 +19,7 @@ function Footer() {
       <p className='pb-6'>
         v0.1.2
       </p>
-      <p cl>
+      <p>
         AS WITH ANY BLOCKCHAIN PROJECT: <b>Do your own research before using this website or buying One Bad Rabbit (OBR) NFTs.</b><br/>
         Nothing on this site or on related channels should be considered a promise by anyone, including but not limited to the developers and promoters of this site, to perform work to generate profits for anyone including but not limited to the following: the users of this site; One Bad Rabbit community members; CZodiac community members; OBR holders; or anyone using any of the sites, smart contracts, social media channels, and any other media or tech related to OBR, One Bad Rabbit, and CZodiac or any of the community members. 
         One Bad Rabbit, OBR, CZodiac, and related technologies plus media are all experimental and must be used according to your personal financial situation and risk profile. 

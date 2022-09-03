@@ -8,6 +8,7 @@ import { utils, Contract, constants } from 'ethers';
 import useCountdown from "../../hooks/useCountdown";
 import useCurrentEpoch from "../../hooks/useCurrentEpoch";
 import Logo from '../../public/static/assets/logo.png';
+import ObrCallVid from '../../public/static/assets/vids/obr-call.mp4';
 import CZCashLogo from '../../public/static/assets/images/czcash.png';
 import { shortenAddress, useLookupAddress} from '@usedapp/core'
 import IERC20Abi from "../../abi/IERC20.json";
@@ -118,7 +119,6 @@ function Home() {
           <a className='button is-rounded is-dark is-small' href={czCashBuyLink(ADDRESS_LRT)} >Get LRT on <img src={CZCashLogo} style={{height:"1em",marginLeft:"0.4em"}} alt="CZ.Cash" /></a>
         </p>
       </div>
-      
       <div className='has-text-white mt-0'>
       <h2 className='is-size-4 mt-5'>Your Wallet</h2>
         <div className='has-background-white auto-centered mb-2' style={{height:"2px",width:"360px", maxWidth:"75%"}}></div>
@@ -151,6 +151,9 @@ function Home() {
           </div>
         </div>
     </div>
+      <video preload="none" autoPlay loop muted className='mt-5 mb-0' style={{position:"relative",top:"1em",width:"100%"}}>
+        <source src={ObrCallVid} type="video/mp4" />
+      </video>
   </div>
     
     
