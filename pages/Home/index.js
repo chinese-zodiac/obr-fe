@@ -1,6 +1,5 @@
 
 import React, { Component, useState, useEffect } from 'react';
-import { Contract as ContractEthCall, Provider as ProviderEthCall} from "ethcall";
 import Web3ModalButton from '../../components/Web3ModalButton';
 import Footer from '../../components/Footer';
 import "./index.module.scss";
@@ -8,23 +7,24 @@ import { useEthers, useToken, useContractFunction, useCall, useTokenBalance, use
 import { utils, Contract, constants } from 'ethers';
 import useCountdown from "../../hooks/useCountdown";
 import useCurrentEpoch from "../../hooks/useCurrentEpoch";
+import useAccountObr from "../../hooks/useAccountObr";
+import usePoolsV1AccountInfo from "../../hooks/usePoolsV1AccountInfo";
+import usePoolsV1Info from "../../hooks/usePoolsV1Info";
 import Logo from '../../public/static/assets/logo.png';
 import ObrCallVid from '../../public/static/assets/vids/obr-call.mp4';
 import CZCashLogo from '../../public/static/assets/images/czcash.png';
 import { shortenAddress, useLookupAddress} from '@usedapp/core'
 import IERC20Abi from "../../abi/IERC20.json";
-import OneBadRabbitAbi from "../../abi/OneBadRabbit.json";
 import OneBadRabbitRecruiterAbi from "../../abi/OneBadRabbitRecruiter.json";
 import ObrCard from "../../components/ObrCard";
+import {POOLS_V1} from "../../constants/poolsv1";
 import { SOCIAL_TWITTER, SOCIAL_TELEGRAM, SOCIAL_GITHUB} from '../../constants/social';
 import {deltaCountdown} from '../../utils/timeDisplay';
 import {weiToShortString, tokenAmtToShortString, weiToFixed, weiToUsdWeiVal, toShortString} from '../../utils/bnDisplay';
-import { ADDRESS_BURN, ADDRESS_OBR, ADDRESS_OBR_RECRUITER, ADDRESS_LRT} from '../../constants/addresses';
+import { ADDRESS_BURN, ADDRESS_OBR_RECRUITER, ADDRESS_LRT} from '../../constants/addresses';
 import { czCashBuyLink } from '../../utils/dexBuyLink';
 const { formatEther, parseEther, Interface } = utils;
 
-const OneBadRabbitInterface = new Interface(OneBadRabbitAbi);
-const CONTRACT_OBR = new Contract(ADDRESS_OBR,OneBadRabbitInterface);
 
 const OneBadRabbitRecruiterInterface = new Interface(OneBadRabbitRecruiterAbi);
 const CONTRACT_OBR_RECRUITER = new Contract(ADDRESS_OBR_RECRUITER,OneBadRabbitRecruiterInterface);
@@ -40,7 +40,10 @@ function Home() {
   
   const { account, library, chainId } = useEthers();
 
-  const [accountNftIdArray, setAccountNftIdArray] = useState([]);
+  const {accountNftIdArray, accountObrCount} = useAccountObr();
+  const poolsV1Info = usePoolsV1Info(library);
+  const poolsV1AccountInfo = usePoolsV1AccountInfo(library,account);
+  const currentEpoch = useCurrentEpoch();
   
   const { state: stateLrtApprove, send: sendLrtApprove } = useContractFunction(CONTRACT_LRT, 'approve');
   const { state: stateRecruitBadRabbit, send: sendRecruitBadRabbit } = useContractFunction(CONTRACT_OBR_RECRUITER, 'recruitBadRabbit');
@@ -78,36 +81,10 @@ function Home() {
      method: 'accountRecruited',
      args: [account ?? ADDRESS_BURN]
    }) ?? {value:[]}
-  const { value: [obrCount], error: obrCountError } = useCall({
-     contract: CONTRACT_OBR,
-     method: 'balanceOf',
-     args: [account ?? ADDRESS_BURN]
-   }) ?? {value:[]}
+  
 
   const whitelistCountdown = useCountdown(whitelistStartEpoch,"OPEN");
   const publicCountdown = useCountdown(publicStartEpoch,"OPEN");
-
-  useEffect(()=>{
-    console.log(account,obrCount?.toString())
-    if(!account) return;
-    if(!obrCount) return;
-    if(obrCount.eq(0)) return;
-    (async ()=>{
-      const multicallProvider = new ProviderEthCall();
-      await multicallProvider.init(library);
-      const obrScMulticallable = new ContractEthCall(ADDRESS_OBR,OneBadRabbitAbi);
-      try{
-        console.log((new Array(obrCount.toNumber()).fill(0)))
-        const multicallResults = await multicallProvider.all(
-          (new Array(obrCount.toNumber()).fill(0)).map((item,index)=>obrScMulticallable.tokenOfOwnerByIndex(account,index))
-        )
-        console.log(multicallResults)
-        setAccountNftIdArray(multicallResults.map(item=>item?.toNumber()));
-      } catch(err) {
-        console.log("Failed to multicall one bad rabbit ids for",account);
-      }
-    })();
-  },[account,obrCount]);
 
   return (<>
   <div id="top" className="has-background-gradient is-dark has-text-centered" style={{width:"100%",minHeight:"125vh"}}>
@@ -161,7 +138,7 @@ function Home() {
             {!!account ? shortenAddress(account) : "..."}<br/>
             {!!account ? (chainId == 56 ? (<span className="has-text-success">✓ BSC</span>) : <span className="has-text-error has-text-danger">❌NOT BSC</span>) : "..."}<br/>
             {!!accLrtBal ? weiToShortString(accLrtBal,2) : "..."}<br/>
-            {obrCount?.toString() ?? 0}<br/>
+            {accountObrCount?.toString() ?? 0}<br/>
             {!!whitelist ? "YES" : "NO"} <br/>
             {/*whitelistCountdown!="OPEN" ? (
               <>Whitelist not open</>
@@ -177,10 +154,15 @@ function Home() {
           </div>
         </div>
     </div>
-    <div>
+    <div className="has-text-white">
+      <h2 className='is-size-4 mt-5'>Available Rabbits</h2>
+      <p>Assigned to a v1 pool on <a target="_blank" href="https://cz.farm">cz.farm</a> to remove taxes.</p>
       {accountNftIdArray.map((nftId)=>{
-        return <ObrCard key={`obr-${nftId}`} nftId={nftId} />
+        return <ObrCard key={`obr-${nftId}`} nftId={nftId} isSlotted={false} {...{poolsV1AccountInfo,poolsV1Info,currentEpoch}} />
       })}
+      <h2 className='is-size-4 mt-5'>Assigned Rabbits</h2>
+      <p>Assigned rabbits remove taxes from v1 pools on <a target="_blank" href="https://cz.farm">cz.farm</a>.</p>
+      <p className='has-text-grey is-size-3 mt-5 mb-5'>COMING SOON</p>
     </div>
       <video preload="none" autoPlay loop muted className='mt-5 mb-0' style={{position:"relative",top:"1em",width:"100%"}}>
         <source src={ObrCallVid} type="video/mp4" />
