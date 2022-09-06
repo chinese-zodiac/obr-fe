@@ -21,7 +21,7 @@ import {POOLS_V1} from "../../constants/poolsv1";
 import { SOCIAL_TWITTER, SOCIAL_TELEGRAM, SOCIAL_GITHUB} from '../../constants/social';
 import {deltaCountdown} from '../../utils/timeDisplay';
 import {weiToShortString, tokenAmtToShortString, weiToFixed, weiToUsdWeiVal, toShortString} from '../../utils/bnDisplay';
-import { ADDRESS_BURN, ADDRESS_OBR_RECRUITER, ADDRESS_LRT} from '../../constants/addresses';
+import { ADDRESS_BURN, ADDRESS_OBR, ADDRESS_OBR_RECRUITER, ADDRESS_LRT} from '../../constants/addresses';
 import { czCashBuyLink } from '../../utils/dexBuyLink';
 const { formatEther, parseEther, Interface } = utils;
 
@@ -96,10 +96,12 @@ function Home() {
           <div className='column has-text-right is-two-fifths'>
             Whitelist:<br/>
             Public:
+            1BAD CA:<br/>
           </div>
           <div className='column has-text-left'>
             {whitelistCountdown}<br/>
-            {publicCountdown}
+            {publicCountdown}<br/>
+            <span style={{wordBreak:"break-word",display:"inline-block",fontFamily:"monospace"}}>{ADDRESS_OBR}</span>
           </div>
         </div>
       </div>

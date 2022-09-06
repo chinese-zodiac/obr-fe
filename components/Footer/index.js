@@ -17,7 +17,7 @@ function Footer() {
         </a>
       </div>  
       <p className='pb-6'>
-        v0.1.5
+        v0.1.6
       </p>
       <p>
         AS WITH ANY BLOCKCHAIN PROJECT: <b>Do your own research before using this website or buying One Bad Rabbit (OBR) NFTs.</b><br/>
