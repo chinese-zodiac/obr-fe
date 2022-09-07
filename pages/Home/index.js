@@ -94,12 +94,10 @@ function Home() {
         <h1 className='m-0 is-size-5 has-text-white'>ONE BAD RABBIT</h1>
         <div className='columns is-mobile mb-0 has-text-white auto-centered ' style={{maxWidth:"360px"}}>
           <div className='column has-text-right is-two-fifths'>
-            Whitelist:<br/>
-            Public:
+            Sale:<br/>
             1BAD CA:<br/>
           </div>
           <div className='column has-text-left'>
-            {whitelistCountdown}<br/>
             {publicCountdown}<br/>
             <span style={{wordBreak:"break-word",display:"inline-block",fontFamily:"monospace"}}>{ADDRESS_OBR}</span>
           </div>
