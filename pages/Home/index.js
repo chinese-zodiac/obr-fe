@@ -132,9 +132,7 @@ function Home() {
             Wallet: <br/>
             Network: <br/>
             LRT Balance: <br/>
-            OBR Count: <br/>
-            Whitelist? <br/>
-            {/*Can Recruit?*/}
+            OBR Count:
           </div>
           <div className='column has-text-left'>
             {!!account ? shortenAddress(account) : "..."}<br/>
@@ -160,11 +158,16 @@ function Home() {
       <h2 className='is-size-4 mt-5'>Available Rabbits</h2>
       <p>Assigned to a v1 pool on <a target="_blank" href="https://cz.farm">cz.farm</a> to remove taxes.</p>
       {accountNftIdArray.map((nftId)=>{
-        return <ObrCard key={`obr-${nftId}`} nftId={nftId} isSlotted={false} {...{poolsV1AccountInfo,poolsV1Info,currentEpoch}} />
+        return <ObrCard key={`obr-${nftId}`} nftId={nftId} isSlotted={false}/>
       })}
       <h2 className='is-size-4 mt-5'>Assigned Rabbits</h2>
       <p>Assigned rabbits remove taxes from v1 pools on <a target="_blank" href="https://cz.farm">cz.farm</a>.</p>
-      <p className='has-text-grey is-size-3 mt-5 mb-5'>COMING SOON</p>
+      {!!poolsV1AccountInfo && poolsV1AccountInfo.map((poolAccountInfo)=>{
+        if(!!poolAccountInfo?.slottedObr && poolAccountInfo.slottedObr.gt(0)) {
+          return <ObrCard key={`obr-${poolAccountInfo.slottedObr.toString()}`} nftId={poolAccountInfo.slottedObr.toString()} isSlotted={true} slottedTo={poolAccountInfo.address} />
+        }
+      })
+      }
     </div>
       <video preload="none" autoPlay loop muted className='mt-5 mb-0' style={{position:"relative",top:"1em",width:"100%"}}>
         <source src={ObrCallVid} type="video/mp4" />

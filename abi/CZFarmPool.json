@@ -182,6 +182,32 @@
       "inputs": [
         {
           "internalType": "uint256",
+          "name": "_nftLockPeriod",
+          "type": "uint256"
+        }
+      ],
+      "name": "czfarmSetNftLockPeriod",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC721",
+          "name": "_slottableNftTaxFree",
+          "type": "address"
+        }
+      ],
+      "name": "czfarmSetSlottableNftTaxFree",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
           "name": "_timestampStart",
           "type": "uint256"
         }
@@ -210,8 +236,65 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "_whitelistToken",
+          "type": "address"
+        }
+      ],
+      "name": "czfarmSetWhitelistToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_whitelistWad",
+          "type": "uint256"
+        }
+      ],
+      "name": "czfarmSetWhitelistWad",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_withdrawFeeBasis",
+          "type": "uint256"
+        }
+      ],
+      "name": "czfarmSetWithdrawFeeBasis",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
       "name": "czfarmUpdateRewardPerSecond",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_for",
+          "type": "address"
+        }
+      ],
+      "name": "deposit",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -225,6 +308,24 @@
         }
       ],
       "name": "deposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "_amounts",
+          "type": "uint256[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "_fors",
+          "type": "address[]"
+        }
+      ],
+      "name": "depositFors",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -252,7 +353,36 @@
     {
       "inputs": [
         {
-          "internalType": "contract IERC20",
+          "internalType": "address",
+          "name": "_account",
+          "type": "address"
+        },
+        {
+          "internalType": "contract IERC721",
+          "name": "_nftSc",
+          "type": "address"
+        }
+      ],
+      "name": "getSlottedNft",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "id_",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp_",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract ERC20Burnable",
           "name": "_stakedToken",
           "type": "address"
         },
@@ -277,6 +407,31 @@
           "type": "uint256"
         },
         {
+          "internalType": "uint256",
+          "name": "_withdrawFeeBasis",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_whitelistToken",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_whitelistWad",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IERC721",
+          "name": "_slottableNftTaxFree",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_nftLockPeriod",
+          "type": "uint256"
+        },
+        {
           "internalType": "address",
           "name": "_admin",
           "type": "address"
@@ -295,6 +450,19 @@
           "internalType": "bool",
           "name": "",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nftLockPeriod",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
         }
       ],
       "stateMutability": "view",
@@ -397,11 +565,29 @@
       "type": "function"
     },
     {
+      "inputs": [
+        {
+          "internalType": "contract IERC721",
+          "name": "_nftSc",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_nftId",
+          "type": "uint256"
+        }
+      ],
+      "name": "slotNft",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [],
-      "name": "stakedToken",
+      "name": "slottableNftTaxFree",
       "outputs": [
         {
-          "internalType": "contract IERC20",
+          "internalType": "contract IERC721",
           "name": "",
           "type": "address"
         }
@@ -411,9 +597,15 @@
     },
     {
       "inputs": [],
-      "name": "stopReward",
-      "outputs": [],
-      "stateMutability": "nonpayable",
+      "name": "stakedToken",
+      "outputs": [
+        {
+          "internalType": "contract ERC20Burnable",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
@@ -471,30 +663,12 @@
     {
       "inputs": [
         {
-          "internalType": "uint256",
-          "name": "_rewardPerSecond",
-          "type": "uint256"
+          "internalType": "contract IERC721",
+          "name": "_nftSc",
+          "type": "address"
         }
       ],
-      "name": "updateRewardPerSecond",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint256",
-          "name": "_timestampStart",
-          "type": "uint256"
-        },
-        {
-          "internalType": "uint256",
-          "name": "_timestampEnd",
-          "type": "uint256"
-        }
-      ],
-      "name": "updateStartAndEndTimestamps",
+      "name": "unslotNft",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -524,6 +698,32 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "whitelistToken",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "whitelistWad",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint256",
@@ -534,6 +734,19 @@
       "name": "withdraw",
       "outputs": [],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "withdrawFeeBasis",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
       "type": "function"
     }
   ]
