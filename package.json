@@ -1,7 +1,7 @@
 {
   "name": "obr-fe",
   "version": "1.0.0",
-  "homepage": ".",
+  "homepage": "./",
   "description": "Recruit One Bad Rabbit to get Tax Free withdraws on cz.farm pools.",
   "license": "GPL-3.0",
   "scripts": {
