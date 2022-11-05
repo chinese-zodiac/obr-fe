@@ -13,7 +13,8 @@ export const POOLS_V1 = [
     rewardDecimals: 18,
     logo: "./images/tokens/CZUSD.png",
     feeBasis: 1498,
-    has1Bad0TaxSlot: true
+    has1Bad0TaxSlot: true,
+    index: 1
   },
   {
     subtitle: "Hold 50 LRT to unstake, claim, or stake. 9.98% CZF burn on unstake.",
@@ -26,7 +27,8 @@ export const POOLS_V1 = [
     logo: "./images/tokens/CZUSD.png",
     feeBasis: 998,
     duty: "50 LRT",
-    has1Bad0TaxSlot: true
+    has1Bad0TaxSlot: true,
+    index: 1
   },
   {
     subtitle: "4.98% CZUSD burn on unstake.",
@@ -38,7 +40,8 @@ export const POOLS_V1 = [
     rewardDecimals: 18,
     logo: "./images/tokens/CZF.png",
     feeBasis: 498,
-    has1Bad0TaxSlot: true
+    has1Bad0TaxSlot: true,
+    index: 1
   },
   {
     subtitle: "Hold 50 LRT to unstake, claim, or stake. 1.98% CZUSD burn on unstake.",
@@ -51,7 +54,8 @@ export const POOLS_V1 = [
     logo: "./images/tokens/CZF.png",
     feeBasis: 198,
     duty: "50 LRT",
-    has1Bad0TaxSlot: true
+    has1Bad0TaxSlot: true,
+    index: 1
   },
   {
     subtitle: "4.98% CZUSD burn on unstake. (2)",
@@ -63,7 +67,8 @@ export const POOLS_V1 = [
     rewardDecimals: 18,
     logo: "./images/tokens/CZF.png",
     feeBasis: 498,
-    has1Bad0TaxSlot: true
+    has1Bad0TaxSlot: true,
+    index: 2
   },
   {
     subtitle: "Hold 50 LRT to unstake, claim, or stake. 1.98% CZUSD burn on unstake. (2)",
@@ -76,6 +81,7 @@ export const POOLS_V1 = [
     logo: "./images/tokens/CZF.png",
     feeBasis: 198,
     duty: "50 LRT",
-    has1Bad0TaxSlot: true
+    has1Bad0TaxSlot: true,
+    index: 2
   }
 ]
