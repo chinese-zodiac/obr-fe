@@ -5,7 +5,7 @@ import OneBadRabbitAbi from "../../abi/OneBadRabbit.json";
 import { getIpfsUrl, getIpfsJson } from '../../utils/getIpfsJson';
 import useOutsideAlerter from '../../hooks/useOutsideAlerter';
 import CZFarmPoolAbi from "../../abi/CZFarmPool.json";
-import { POOLS_V1 } from "../../constants/poolsv1";
+import { SLOTTABLE_POOLS } from "../../constants/slottableObrPools";
 import { useEthers, shortenAddress, useCall, useContractFunction, useTokenAllowance } from '@usedapp/core';
 const { formatEther, parseEther, Interface } = utils;
 
@@ -52,7 +52,7 @@ const ObrCard = memo(({ nftId, slottedTo }) => {
           </div>
           <div class="dropdown-menu is-outlined is-dark" id="dropdown-menu" role="menu">
             <div class="dropdown-content is-dark has-background-primary-dark has-text-left">
-              {POOLS_V1.map((pool, index) => {
+              {SLOTTABLE_POOLS.map((pool, index) => {
                 return (
                   <button key={pool.address} class="dropdown-item has-text-white" style={{ background: "transparent", border: "none", cursor: "pointer" }} onClick={async () => {
                     console.log("Clicked")
