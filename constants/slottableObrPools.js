@@ -1,4 +1,4 @@
-import { utils } from 'ethers'
+import { utils } from 'ethers';
 const { parseEther } = utils;
 
 
@@ -48,14 +48,14 @@ export const SLOTTABLE_POOLS = [
   },
   {
     address: "0xaf4702983e124c575d1dd2d105c2e030a2caf47d",
-    rewardAssetName: "LSDT",
+    rewardAssetName: "LSDT (OLD)",
     baseAssetName: "CZR",
     feeBasis: 1498,
     index: 1
   },
   {
     address: "0x97b12c962f64852d88ffd67bcf95ad6a239462e4",
-    rewardAssetName: "LSDT",
+    rewardAssetName: "LSDT (OLD)",
     baseAssetName: "CZR",
     feeBasis: 998,
     index: 1
@@ -84,6 +84,20 @@ export const SLOTTABLE_POOLS = [
   {
     address: "0xf24ee6519c14d60e8b97ef802f5fac53d323e7fc",
     rewardAssetName: "GEM",
+    baseAssetName: "CZR",
+    feeBasis: 998,
+    index: 1
+  },
+  {
+    address: "0x770Ca266f6eFf94880e60D4276fE708FF498a61F",
+    rewardAssetName: "LSDT",
+    baseAssetName: "CZR",
+    feeBasis: 1498,
+    index: 1
+  },
+  {
+    address: "0xBeFE5F7c282c9Cb5A333892E2e600b28d80699c7",
+    rewardAssetName: "LSDT",
     baseAssetName: "CZR",
     feeBasis: 998,
     index: 1
