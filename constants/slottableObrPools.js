@@ -101,5 +101,19 @@ export const SLOTTABLE_POOLS = [
     baseAssetName: "CZR",
     feeBasis: 998,
     index: 1
+  },
+  {
+    address: "0x39e18C777A3FfC6B2Bc9B0485486E54DFBFEF165",
+    rewardAssetName: "BRAG",
+    baseAssetName: "CZR",
+    feeBasis: 1498,
+    index: 1
+  },
+  {
+    address: "0x2cfc10F03570C05713bEF29006ec018Cd4de8E51",
+    rewardAssetName: "BRAG",
+    baseAssetName: "CZR",
+    feeBasis: 998,
+    index: 1
   }
 ]
