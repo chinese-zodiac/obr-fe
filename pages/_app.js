@@ -2,16 +2,27 @@ import Head from 'next/head';
 import React from 'react';
 import Router, { withRouter } from 'next/router';
 import { DAppProvider, BSC } from '@usedapp/core';
+import { providers } from 'ethers';
+import { BSC_RPC_URLS } from '../constants/bscRpc';
 import OpenGraphImg from '../public/static/assets/opengraph.jpg';
 import Favicon from '../public/static/assets/logo.png';
 import '../public/static/assets/fonts/stylesheet.css';
 import '../styles/styles.scss';
 import { WalletConnectV2Connector } from '@usedapp/wallet-connect-v2-connector';
 
+const fallbackProvider = new providers.FallbackProvider(
+  BSC_RPC_URLS.map((url, index) => ({
+    provider: new providers.StaticJsonRpcProvider(url, BSC.chainId),
+    priority: index + 1,
+    stallTimeout: 1500,
+    weight: 1,
+  }))
+);
+
 const config = {
   readOnlyChainId: BSC.chainId,
   readOnlyUrls: {
-    [BSC.chainId]: 'https://rpc.ankr.com/bsc',
+    [BSC.chainId]: fallbackProvider,
   },
   networks: [BSC],
 };

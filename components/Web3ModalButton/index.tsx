@@ -1,37 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import type { ChainId } from '@usedapp/core'
 import { useEthers, BSC  } from '@usedapp/core'
-import styled from 'styled-components'
-import { AccountModal } from '../AccountModal'
-import WalletConnectProvider from '@walletconnect/web3-provider'
-import { parseEther, formatEther } from '@ethersproject/units'
 import MetamaskLogo from '../../public/static/assets/images/metamask.svg';
 import WalletConnectLogo from '../../public/static/assets/images/walletconnect.svg';
-import { getInjectedProvider } from '@usedapp/core/src/helpers/injectedProvider'
 import { WalletConnectV2Connector } from '@usedapp/wallet-connect-v2-connector'
+import { BSC_RPC_URLS } from '../../constants/bscRpc'
+import { providers } from 'ethers'
 
-const INJECTED_STATE = {
-  PENDING: 'PENDING',
-  ACTIVE: 'ACTIVE',
-  NONE: 'NONE'
-};
+// Removed injected state gating; always allow connecting to any browser wallet
 
 const Web3ModalButton = ({className}) => {
   const { account, activate, activateBrowserWallet, deactivate, chainId } = useEthers();
 
-  const [injectedState,setInjectedState] = useState(INJECTED_STATE.PENDING);
+  // No injected state; we check for provider presence on connect
 
   const [activateError, setActivateError] = useState('');
   const [isLoadingWalletConnect, setIsLoadingWalletConnect] = useState(false);
   const { error } = useEthers();
 
-  useEffect(()=>{
-    if(!!window?.ethereum?.networkVersion || !!window?.web3) {
-      setInjectedState(INJECTED_STATE.ACTIVE);
-    } else {
-      setInjectedState(INJECTED_STATE.NONE);
-    }
-  },[])
+  // Removed injected provider detection; avoid MetaMask install popups
 
   useEffect(() => {
     if (error) {
@@ -40,18 +26,36 @@ const Web3ModalButton = ({className}) => {
     }
   }, [error])
 
+  const probeRpc = async (urls: string[]): Promise<string | null> => {
+    for (const url of urls) {
+      try {
+        const provider = new providers.StaticJsonRpcProvider(url, 56);
+        await provider.getBlockNumber();
+        return url;
+      } catch (e) {
+        // try next
+      }
+    }
+    return null;
+  }
+
   const activateProvider = async (providerId: string) => {
     setIsLoadingWalletConnect(true);
     try {
       deactivate();
       if(providerId == 'injected') {
-        await activateBrowserWallet();
+        if(!!(window as any)?.ethereum || !!(window as any)?.web3) {
+          await activateBrowserWallet();
+        } else {
+          setActivateError('No browser wallet detected');
+        }
       } else {
+        const workingRpc = await probeRpc(BSC_RPC_URLS);
         await activate(new WalletConnectV2Connector({
           projectId: '733b62687a642698bb939c8b193a60a9',
           chains: [BSC],
           rpcMap:{
-            56:'https://rpc.ankr.com/bsc'
+            56: workingRpc ?? 'https://bsc-dataseed.bnbchain.org'
           }
         }))
       }
@@ -66,7 +70,6 @@ const Web3ModalButton = ({className}) => {
     <>
     <div className={"field has-addons "+className} style={{width:"18em"}}>
     {!account ? (<>
-    {(injectedState == INJECTED_STATE.ACTIVE) && (<>
       <p className="control is-inline-block">
         <button title="Connect your browser wallet" className="button is-dark is-rounded is-large" style={{width:"6em"}} onClick={()=>activateProvider("injected")} >
           <span className="icon is-small p-1" >
@@ -81,23 +84,6 @@ const Web3ModalButton = ({className}) => {
           </span>
         </button>
       </p>    
-    </>)}
-    {(injectedState == INJECTED_STATE.NONE) && (<>
-      <p className="control">
-        <button title="Connect with WalletConnect" className="button is-dark is-rounded is-large" style={{width:"12em"}} onClick={()=>activateProvider("walletconnect")}>
-          <span className="icon is-small">
-            <img src={WalletConnectLogo} />
-          </span>
-        </button>
-      </p>    
-    </>)}
-    {(injectedState == INJECTED_STATE.PENDING) && (<>
-      <p className="control">
-        <button title="Connect with WalletConnect" className="button is-dark is-rounded is-large" style={{width:"12em"}} onClick={()=>activateProvider("walletconnect")}>
-            <span className='is-size-6'>STATUS: <span className='has-text-warning'>CONNECTING...</span></span>
-        </button>
-      </p>  
-    </>)}
     </>) : (<>
     <p className="control">
       <button title="Disconnect your wallet" className="button is-dark is-rounded is-large" style={{width:"12em"}} onClick={() => {console.log("deactivate"); deactivate();}}>

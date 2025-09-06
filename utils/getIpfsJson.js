@@ -1,6 +1,4 @@
 import IPFSGatewayTools from '@pinata/ipfs-gateway-tools/dist/node';
-import fetchRetry from './fetchRetry';
-import { memoize, random } from 'lodash';
 
 const gatewayTools = new IPFSGatewayTools();
 const gateways = [
@@ -8,6 +6,8 @@ const gateways = [
   'https://cloudflare-ipfs.com',
   //"https://czodiac.mypinata.cloud",
   'https://gateway.ipfs.io',
+  'https://nftstorage.link',
+  'https://dweb.link',
 ];
 
 export const getIpfsUrl = (sourceUrl, cycle = 0) => {
@@ -18,22 +18,53 @@ export const getIpfsUrl = (sourceUrl, cycle = 0) => {
   );
 };
 
-let cycle = 0;
-export const getIpfsJson = memoize(async (sourceUrl) => {
-  console.log(sourceUrl);
-  let s = window.localStorage;
-  let item = JSON.parse(s.getItem(sourceUrl));
-  if (item != null) return item;
+const inMemoryCache = new Map();
 
-  cycle++;
-  let result = await fetchRetry(getIpfsUrl(sourceUrl, cycle));
-  try {
-    item = await result.json();
-  } catch (err) {
-    console.log('getIpfsJson error:', err);
-    item = {};
+export const getIpfsJson = async (sourceUrl) => {
+  console.log(sourceUrl);
+  const s = window.localStorage;
+  const cached = s.getItem(sourceUrl);
+  if (cached != null) {
+    try {
+      const parsed = JSON.parse(cached);
+      if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+        return parsed;
+      }
+    } catch (_) {
+      // ignore invalid cache
+    }
   }
 
-  s.setItem(sourceUrl, JSON.stringify(item));
-  return item;
-});
+  if (inMemoryCache.has(sourceUrl)) {
+    return inMemoryCache.get(sourceUrl);
+  }
+
+  // Try each gateway in order; on network/CORS failures or non-OK status, fall back.
+  for (let i = 0; i < gateways.length; i++) {
+    const url = getIpfsUrl(sourceUrl, i);
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+      const res = await fetch(url, { mode: 'cors', cache: 'no-store', signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (!res.ok) {
+        console.log('getIpfsJson non-OK status:', res.status, url);
+        continue;
+      }
+
+      const item = await res.json();
+      if (item && typeof item === 'object' && Object.keys(item).length > 0) {
+        s.setItem(sourceUrl, JSON.stringify(item));
+        inMemoryCache.set(sourceUrl, item);
+      }
+      return item;
+    } catch (err) {
+      console.log('getIpfsJson attempt failed:', url, err);
+      // try next gateway
+    }
+  }
+
+  // All gateways failed; return empty object and avoid poisoning cache with failures
+  return {};
+};

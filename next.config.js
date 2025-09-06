@@ -1,10 +1,13 @@
 const withPlugins = require('next-compose-plugins');
 const withImages = require('next-images');
-const withVideos = require('next-videos')
+const withVideos = require('next-videos');
+
+const isDev = process.env.NODE_ENV !== 'production';
 
 const nextConfig = {
-  trailingSlash:true,
-  assetPrefix: '.',
+  trailingSlash: true,
+  // Use relative asset prefix only for production/export. Disable in dev to keep HMR working.
+  assetPrefix: isDev ? '' : '.',
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -26,4 +29,4 @@ const nextConfig = {
   }
 };
 
-module.exports = withPlugins([withImages,withVideos], nextConfig);
+module.exports = withPlugins([withImages, withVideos], nextConfig);
