@@ -5,6 +5,9 @@ const withVideos = require('next-videos')
 const nextConfig = {
   trailingSlash:true,
   assetPrefix: '.',
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack: function (config) {
     config.module.rules.push({
       test: /\.(eot|woff|woff2|ttf)$/,

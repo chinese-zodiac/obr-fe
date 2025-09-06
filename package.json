@@ -6,8 +6,8 @@
   "license": "GPL-3.0",
   "scripts": {
     "dev": "next",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && next export",
+    "start": "serve out -s -l 3000",
     "export": "next export",
     "prettier": "prettier --write '**/*.js{x,}'"
   },
